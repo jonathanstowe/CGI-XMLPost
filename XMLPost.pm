@@ -14,8 +14,8 @@
 #*****************************************************************************
 #*
 #*          $Log: XMLPost.pm,v $
-#*          Revision 1.3  2004/03/02 20:28:03  jonathan
-#*          Put back in CVS
+#*          Revision 1.4  2004/03/30 16:57:41  jonathan
+#*          FIxed bogus XML declaration
 #*
 #*          Revision 1.3  2003/06/18 08:57:39  gellyfish
 #*          Added as_xpath() method
@@ -38,7 +38,7 @@ use Carp;
 
 use vars qw($VERSION);
 
-($VERSION) = q$Revision: 1.3 $ =~ /([\d.]+)/;
+($VERSION) = q$Revision: 1.4 $ =~ /([\d.]+)/;
 
 # Ripped off from CGI.pm
 
@@ -184,6 +184,24 @@ sub data
    return $self->{_data};
 }
 
+=item encoding
+
+Gets or sets the encoding used in the response.  The default is utf-8
+
+=cut
+
+sub encoding
+{
+   my ( $self, $encoding ) = @_;
+
+   if ( defined $encoding )
+   {
+      $self->{_encoding} = $encoding;
+   }
+
+   return $self->{_encoding} || 'utf-8';
+}
+
 =item header
 
 Returns a header suitable to be used in an HTTP response.  The arguments are
@@ -215,7 +233,9 @@ sub header
 
    $self->{type} = $args{type}   || 'application/xml';
 
-   push @header, "Content-Type: $self->{type}";   
+   my $charset = $self->encoding();
+
+   push @header, "Content-Type: $self->{type}; charset=$charset";   
 
    my $header = join $CRLF, @header;
 
@@ -237,7 +257,7 @@ my %status_codes = (
 Returns a string that is suitable to be sent in the body of the response.
 The default is to return an XML string of the form :
 
-       <?xml version="1" encoding="iso-8859-1"?>
+       <?xml version="1.0" encoding="iso-8859-1"?>
        <Response>
          <Code>$status</Code>
          <Text>$text</Text>
@@ -260,10 +280,12 @@ sub response
 
    my $response;
 
+   my $encoding = $self->encoding();
+
    if ( $type =~ /xml$/i )
    {
      $response =<<EOX;
-<?xml version="1" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="$encoding"?>
 <Response>
   <Code>$status</Code>
   <Text>$text</Text>
