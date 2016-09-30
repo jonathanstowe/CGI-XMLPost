@@ -1,51 +1,15 @@
-#******************************************************************************
-#*           
-#*                         Gellyfish Software                  
-#*                                                       
-#*
-#******************************************************************************
-#*
-#*          PROGRAM      :   CGI::XMLPost
-#*
-#*          AUTHOR       :   JNS
-#*
-#*          DESCRIPTION  :   Specialized POST only CGI library for XML
-#*
-#*****************************************************************************
-#*
-#*          $Log: XMLPost.pm,v $
-#*          Revision 1.5  2006/05/12 10:36:50  jonathan
-#*          * Altered to use sysread
-#*
-#*          Revision 1.4  2004/03/30 16:57:41  jonathan
-#*          FIxed bogus XML declaration
-#*
-#*          Revision 1.3  2003/06/18 08:57:39  gellyfish
-#*          Added as_xpath() method
-#*
-#*          Revision 1.2  2002/05/26 12:59:15  gellyfish
-#*          Version updated to CPAN
-#*
-#*          Revision 1.1.1.1  2002/05/26 12:54:36  gellyfish
-#*          Import version prior to uploading
-#*
-#*
-#*
-#*****************************************************************************/ 
-
 package CGI::XMLPost;
 
 use strict;
+use warnings;
 
 use Carp;
 
-use vars qw($VERSION);
-
-($VERSION) = q$Revision: 1.5 $ =~ /([\d.]+)/;
+our $VERSION = '1.6';
 
 # Ripped off from CGI.pm
 
-use vars qw($CRLF);
+our $CRLF;
 
 my $EBCDIC = "\t" ne "\011";
 
@@ -343,7 +307,7 @@ __END__
 
 =head1 AUTHOR
 
-Jonathan Stowe <jns@gellyfish.com>
+Jonathan Stowe <jns@gellyfish.co.uk>
 
 =head1 SEE ALSO
 
