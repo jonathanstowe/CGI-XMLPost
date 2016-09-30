@@ -3,6 +3,6 @@ Makefile.PL
 MANIFEST
 README
 test.xml
-test.pl
-XMLPost.pm
+t/03-basic.t
+lib/CGI/XMLPost.pm
 META.yml                                Module meta-data (added by MakeMaker)
